@@ -14,4 +14,12 @@ class Permission extends Model
             'name',
             'feature_id'
         ];
+
+    public function roles() {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function features() {
+        return $this->belongsToMany(Feature::class);
+    }
 }
