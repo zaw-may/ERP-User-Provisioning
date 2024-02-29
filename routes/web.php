@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +19,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth() -> check()) {
+        return redirect('/dashboard');
+    } else {
+        return redirect('/dashboard/login');
+    }
 });
 
-Auth::routes();
+Route::get('/dashboard/login', [AuthController::class, 'index']) -> name('login');
+Route::post('/dashboard/login', [AuthController::class, 'login']);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', function () {
+    if (auth() -> check ()) {
+        return view('components.dashboard');
+    } else {
+        return redirect('/dashboard/login');
+    }
+}) -> name('dashboard');
+
+Route::post('/dashboard/signout', [AuthController::class, 'signout']) -> name('logout');
+
+Route::resource('/dashboard/users', UserController::class);
+Route::resource('/dashboard/users', RoleController::class);
+
+//Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
