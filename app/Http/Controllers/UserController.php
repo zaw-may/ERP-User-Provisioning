@@ -33,8 +33,8 @@ class UserController extends Controller
             'phone' => ['required', 'string', 'min:8', 'max:12'],
             'email' => ['required', 'string', 'lowercase','email', 'max:255', 'unique:'.User::class],
             'address' => ['required', 'string', 'max:255'],
-            'gender' => ['required'],
-            'is_active' => ['nullable', 'string', 'max:3'],
+            'gender' => ['required', 'string', 'min:1'],
+            'is_active' => ['nullable', 'string', 'max:4'],
             'password' => ['required', 'string', 'min:8']
         ]);
 
@@ -65,8 +65,8 @@ class UserController extends Controller
             'phone' => ['required', 'string', 'min:8', 'max:12'],
             'email' => ['required', 'string', 'lowercase','email', 'max:255', 'unique:'.User::class],
             'address' => ['required', 'string', 'max:255'],
-            'gender' => ['required'],
-            'is_active' => ['nullable', 'string', 'max:3'],
+            'gender' => ['required', 'string', 'min:1'],
+            'is_active' => ['nullable', 'string', 'max:4'],
             'password' => ['required', 'string', 'min:8']
         ]);
 
