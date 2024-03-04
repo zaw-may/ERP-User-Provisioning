@@ -23,25 +23,25 @@ Route::get('/', function () {
 });
 
 Route::get('/', function () {
-    if (auth() -> check()) {
+    if (auth()->check()) {
         return redirect('/dashboard');
     } else {
         return redirect('/dashboard/login');
     }
 });
 
-Route::get('/dashboard/login', [AuthController::class, 'index']) -> name('login');
+Route::get('/dashboard/login', [AuthController::class, 'index'])->name('login');
 Route::post('/dashboard/login', [AuthController::class, 'login']);
 
 Route::get('/dashboard', function () {
-    if (auth() -> check ()) {
+    if (auth()->check ()) {
         return view('components.dashboard');
     } else {
         return redirect('/dashboard/login');
     }
 }) -> name('dashboard');
 
-Route::post('/dashboard/signout', [AuthController::class, 'signout']) -> name('logout');
+Route::post('/dashboard/signout', [AuthController::class, 'signout'])->name('logout');
 
 Route::resource('/dashboard/users', UserController::class);
 Route::resource('/dashboard/users', RoleController::class);

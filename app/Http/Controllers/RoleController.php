@@ -20,14 +20,14 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $request -> validate([
+        $request->validate([
             'id' => ['required', 'numeric'],
             'name' => ['required', 'string', 'max:255']
         ]);
 
         Role::create($request -> all());
 
-        return redirect () -> route('roles.roles-list') -> with ('success', 'Role created successfully');
+        return redirect ()->route('roles.roles-list')->with ('success', 'Role created successfully');
     }
 
     public function show($id)
@@ -44,20 +44,20 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request -> validate([
+        $request->validate([
             'id' => ['required', 'numeric'],
             'name' => ['required', 'string', 'max:255']
         ]);
 
         $role = Role::find($id);
-        $role -> update($request -> all());
+        $role->update($request -> all());
 
-        return redirect() -> route('roles.roles-list') -> with('success', 'Role updated successfully');
+        return redirect()->route('roles.roles-list')->with('success', 'Role updated successfully');
     }
 
     public function destroy($id)
     {
         Role::destroy($id);
-        return redirect() -> route('roles.roles-list') -> with('success', 'Role deleted successfully');
+        return redirect()->route('roles.roles-list')->with('success', 'Role deleted successfully');
     }
 }

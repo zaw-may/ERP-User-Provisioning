@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function store (Request $request) 
     {
-        $request -> validate([
+        $request->validate([
             'id' => ['required', 'string', 'max:10'],
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
@@ -40,7 +40,7 @@ class UserController extends Controller
 
         User::create($request -> all());
 
-        return redirect() -> route('users.all-users') -> with('success', 'User created successfully');
+        return redirect()->route('users.all-users')->with('success', 'User created successfully');
     }
 
     public function show ($id) 
@@ -57,7 +57,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request -> validate ([
+        $request->validate ([
             'id' => ['required', 'string', 'max:10'],
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
@@ -71,14 +71,14 @@ class UserController extends Controller
         ]);
 
         $user = User::find($id);
-        $user -> update($request -> all());
+        $user->update($request->all());
 
-        return redirect () -> route('users.all-users') -> with ('success', 'User updated successfully');
+        return redirect ()->route('users.all-users')->with ('success', 'User updated successfully');
     }
 
     public function destroy($id)
     {
         User::destroy($id);
-        return redirect () -> route('users.all-users') -> with ('success', 'User deleted successfully');
+        return redirect ()-> route('users.all-users')->with ('success', 'User deleted successfully');
     }
 }

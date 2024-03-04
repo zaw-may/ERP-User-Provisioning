@@ -28,7 +28,7 @@ class PermissionController extends Controller
 
         Permission::create($request -> all());
 
-        return redirect() -> route('permissions.permissions-list') -> with('success', 'Permission created successfully');
+        return redirect()->route('permissions.permissions-list')->with('success', 'Permission created successfully');
     }
 
     public function show($id)
@@ -45,21 +45,21 @@ class PermissionController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request -> validate([
+        $request->validate([
             'id' => ['required', 'string', 'max:10'],
             'name' => ['required', 'string', 'max:255'],
             'feature_id' => ['required', 'string', 'max:255']
         ]);
 
         $permission = Permission::find($id);
-        $permission -> update($request -> all());
+        $permission->update($request -> all());
 
-        return redirect() -> route('permmissions.permissions-list') -> with('success', 'Permission updated successfully');
+        return redirect()->route('permmissions.permissions-list')->with('success', 'Permission updated successfully');
     }
 
     public function destroy($id)
     {
         Permission::destroy($id);
-        return redirect() -> route('permissions.permissions-list') -> with('success', 'Permission deleted successfully');
+        return redirect()->route('permissions.permissions-list')->with('success', 'Permission deleted successfully');
     }
 }

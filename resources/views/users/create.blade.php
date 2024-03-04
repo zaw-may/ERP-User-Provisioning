@@ -50,7 +50,7 @@
                 </select>
             </div>
             <div class = "mb-3">
-                <label for = "password"Password:</label>
+                <label for = "password">Password:</label>
                 <input type = "password" name = "password" class = "form-control" required>
             </div>
         </form>
