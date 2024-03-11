@@ -3,61 +3,95 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules;
 use App\Models\Role;
+use App\Models\Permission;
+use App\Models\Feature;
 
 class RoleController extends Controller
 {
     public function index ()
     {
-        $roles = Role::all();
-        return view('roles.roles-list', compact('roles'));
+        if (Auth::check()) {
+            $roles = Role::all();
+            return view('roles.roles-list', compact('roles'));
+        } else {
+            return redirect()->route('login')->with('error', 'You need to login first.');
+        }        
     }
 
-    public function create()
+    public function create ()
     {
-        return view('roles.create-role');
+        if (Auth::check()) {
+            return view('roles.create-role', [
+                'permissions' => Permission::all(),
+                'features' => Feature::all()
+            ]);
+        } else {
+            return redirect()->route('login')->with('error', 'You are not allowed to create a new role.');
+        }        
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'id' => ['required', 'numeric'],
-            'name' => ['required', 'string', 'max:255']
-        ]);
-
-        Role::create($request -> all());
-
-        return redirect ()->route('roles.roles-list')->with ('success', 'Role created successfully');
+        if (Auth::check()) {
+            $request->validate([
+                'id' => ['required', 'numeric'],
+                'name' => ['required', 'string', 'max:255']
+            ]);
+            Role::create($request->all());
+            return redirect()->route('roles.roles-list')->with('success', 'Role created successfully.');
+        } else {
+            return redirect()->route('roles.create-role')->withInput()->with('error', 'Role creating cannot be done.');
+        }        
     }
 
-    public function show($id)
+    public function show(Role $roleid)
     {
-        $role = Role::find($id);
-        return view('roles.show', compact('role'));
+        if (Auth::check()) {
+            $role = Role::find($roleid);
+            return view('roles.show', compact('role'));
+        } else {
+            return redirect()->route('login')->with('error', 'You must be logged in to access the role list page.');
+        }        
     }
 
-    public function eidt($id)
+    public function edit(Role $roleid)
     {
-        $role = Role::find($id);
-        return view('roles.eidt', compact('role'));
+        if (Auth::check()) {
+            return view('roles.edit', [
+                'role'=> $roleid,
+                'permissions'=>Permission::all(),
+                'features'=>Feature::all()
+            ]);
+        } else {
+            return redirect()->route('login')->with('error', 'You are not allowed to edit the role permissions details.');
+        }        
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $roleid)
     {
-        $request->validate([
-            'id' => ['required', 'numeric'],
-            'name' => ['required', 'string', 'max:255']
-        ]);
-
-        $role = Role::find($id);
-        $role->update($request -> all());
-
-        return redirect()->route('roles.roles-list')->with('success', 'Role updated successfully');
+        if (Auth::check()) {
+            $request->validate([
+                'id' => ['required', 'numeric'],
+                'name' => ['required', 'string', 'max:255']
+            ]);
+            $role = Role::find($roleid);
+            $role->update($request->all());
+            return redirect()->route('roles.roles-list')->with('success', 'Role updated successfully.');
+        } else {
+            return redirect()->route('login')->with('error', 'You are not allowed to update the role permissions details.');
+        }         
     }
 
-    public function destroy($id)
+    public function destroy(Role $roleid)
     {
-        Role::destroy($id);
-        return redirect()->route('roles.roles-list')->with('success', 'Role deleted successfully');
+        if (Auth::check()) {
+            $roleid->delete();
+           return redirect()->route('roles.roles-list')->with('success', 'Role deleted successfully.');
+        } else {
+            return redirect()->route('login')->with('error', 'You are not allowed to delete the existing role without permission.');
+        }
     }
 }

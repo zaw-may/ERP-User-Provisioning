@@ -12,13 +12,17 @@ class UserSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+
     public function run(): void
     {
+
+       $roleName = DB::table('roles')->where('name', 'admin')->first();
+
        DB::table('users')->insert([
         'id' => 'admin001',
         'name' => 'Zak',
-        'username' => 'Admin',
-        'role_id' => 1,
+        'username' => 'admin',
+        'role_id' => $roleName->id,
         'phone' => '95975564312',
         'email' => 'admin@gmail.com',
         'address' => 'No.615',        

@@ -10,10 +10,8 @@ class RolePermission extends Model
     use HasFactory;
 
     protected $fillable = [
-        'admin_user',
-        'role',
-        'role_permission',
-        'permission',
-        'feature'
+        'id',
+        'role_id',
+        'permission_id'
     ];
 }

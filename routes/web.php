@@ -29,7 +29,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/dashboard/login', [AuthController::class, 'login']);
 });
 
-Route::middelware(['guest'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () { return view('components.dashboard');})->name('dashboard');
     Route::resource('/dashboard/users', UserController::class);
     Route::resource('/dashboard/roles', RoleController::class);
